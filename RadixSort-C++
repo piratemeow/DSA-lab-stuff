@@ -20,7 +20,7 @@ int main ()
 	int ans [n+1];
 	int j=1;
 
-	while (j<=d+1)
+	while (j<=d)
 	{
 		int count[10];
 		memset(count,0,sizeof count);
