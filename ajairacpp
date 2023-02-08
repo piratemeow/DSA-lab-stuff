@@ -1,0 +1,188 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+
+
+
+struct node {
+    int data;
+    struct node *next;
+};
+
+
+struct node *head = NULL;
+
+
+void begin_insert(int x)
+{
+
+    struct node *ptr;
+
+    ptr=(struct node*) malloc(sizeof(struct node*));
+
+    if (ptr==NULL)
+    {
+        cout<<"Overflow\n";
+    }
+
+    else
+    {
+        ptr->data = x;
+        ptr->next = head;
+        head = ptr;
+
+    }
+
+}
+
+void rand_insert(int x,int loc)
+{
+    struct node *ptr,*temp;
+
+    ptr=(struct node*) (malloc(sizeof (struct node*)));
+
+    if (ptr=NULL)
+    {
+        cout<<"Overflow\n";
+    }
+    else
+    {
+        ptr->data = x;
+        temp=head;
+
+
+        for (int i=0;i<loc;i++)
+        {
+            temp=temp->next;
+
+            if (temp==NULL)
+            {
+                cout<<"Can't insert\n";
+                break;
+            }
+        }
+
+        ptr->next = temp->next;
+        temp->next = ptr;
+
+
+    }
+}
+
+
+void last_insert(int x)
+{
+    struct node *ptr,*temp;
+
+    ptr=(struct node*)(malloc(sizeof (struct node*)));
+
+    if (ptr==NULL)
+    {
+        cout<<"Overflow\n";
+    }
+
+    else
+    {
+        ptr->data = x;
+
+        if (head==NULL)
+        {
+            ptr->next = NULL;
+            head = ptr;
+        }
+
+        else
+        {
+            temp = head;
+            while(temp->next!=NULL)
+            {
+                temp = temp->next;
+            }
+
+            temp->next = ptr;
+            ptr->next = NULL;
+        }
+    }
+}
+
+
+void begin_delete()
+{
+    struct node* ptr;
+
+    ptr = head;
+
+    head = head->next;
+    free(ptr);
+}
+
+
+void last_delete()
+{
+    struct node* ptr,*temp,*temp2;
+     temp=head;
+
+    if (head == NULL)
+    {
+        cout<<"This is empty\n";
+        return ;
+    }
+     else if (temp->next == NULL)
+     {
+        
+         head=NULL;
+         free(temp);
+
+         return ;
+     }
+   
+    while (temp->next !=NULL)
+    {
+        temp2=temp;
+        temp=temp->next;
+    }
+
+    free(temp);
+    temp2->next=NULL;
+
+
+
+
+}
+
+
+void display ()
+{
+    struct node* ptr;
+   
+
+    if (head==NULL)
+    {
+        cout<<"Nai\n";
+        return;
+    }
+     ptr = head;
+    while (ptr->next!=NULL)
+    {
+        cout<<ptr->data<<" ";
+        ptr=ptr->next;
+    }
+    cout<<ptr->data<<endl;
+}
+int main ()
+{
+     int n;
+    cin>>n;
+    while (n--)
+    {
+        int x;
+        cin>>x;
+        last_insert(x);
+    }
+
+    display();
+    last_delete();
+   display();
+}
