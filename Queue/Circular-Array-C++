@@ -18,7 +18,7 @@ public:
     {
         if (this->full())
         {
-            if (fr>=he)
+            if (fr>=he && fr!=0)
             {
                 arr[he]=x;
                 he++;
@@ -33,6 +33,10 @@ public:
 
         else
         {
+            if (ba==sz)
+            {
+                cout<<"This que is full\n;
+            }
             arr[ba] = x;
             ba++;
         }
