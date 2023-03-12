@@ -3,7 +3,7 @@ using namespace std;
 
 typedef long long ll;
 
-//Lamuto's Partition
+//Hoare's Partition
 
 void quick_sort(int arr[],int l, int r)
 {
