@@ -1,0 +1,263 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+class node 
+{
+public:
+
+	int data ;
+	node* left = NULL;
+	node* right =NULL;
+
+
+
+
+	node(int data)
+	{
+		this->data = data;
+		this->left = NULL;
+		this->right = NULL;
+	}
+
+	node()
+	{
+
+	}
+
+
+	
+};
+
+
+node* tree(int arr[],int l, int r, int n)
+{
+
+	if (l>r)
+	{
+		return NULL;
+	}
+		int mid = l+ (r-l)/2;
+
+	node* root = new node(arr[mid]);
+	//cout<<arr[mid]<<" "<<endl;
+	root->left = tree(arr,l,mid-1,n);
+	root->right = tree(arr,mid+1,r,n);
+
+	return root;
+
+}
+
+void insert(int data, node* root)
+{
+	node* par = new node();
+
+	node* chil = new node();
+
+	chil = root;
+
+
+	if (root==NULL)
+	{
+		root->data = data;
+		return;
+	}
+
+	while (chil!=NULL)
+	{
+		par=chil;
+
+		if (chil->data >= data)
+		{
+			chil = chil->left;
+		}
+
+
+		else
+		{
+			chil = chil->right;
+		}
+	}
+
+	node* nnode = new node(data);
+
+
+	if (par->data >= data)
+	{
+		par->left = nnode;
+	}
+
+	else
+	{
+		par->right = nnode;
+	}
+}
+
+
+node* minValueNode(node* root);
+
+node* dele(int data, node* root)
+{
+	if (root == NULL)
+	{
+		return root;
+	}
+
+	if (data<root->data)
+	{
+		root->left = dele(data,root->left); 
+	}
+
+	else if (data>root->data)
+	{
+		root->right = dele(data,root->right);
+	}
+
+
+	else
+	{
+		if (root->left == NULL && root->right == NULL)
+		{
+			return NULL;
+		}
+
+		else if (root->left == NULL)
+		{
+			node* temp = root->right;
+			free(root);
+			return temp;
+		}
+
+		else if (root->right == NULL)
+		{
+			node* temp = root->left;
+			free(root);
+			return temp;
+		}
+
+
+		node* temp = minValueNode(root->right);
+		root->data = temp ->data;
+
+		root->right = dele(data,root->right);
+	}
+
+	return root;
+
+}
+
+node* search(int data, node* root)
+{
+	node* cur = root;
+
+	while (cur->data!=data)
+	{
+		if (cur == NULL)
+		{
+			return NULL;
+		}
+
+		else
+		{
+			if (data < cur->data)
+			{
+				cur = cur->left;
+			}
+			else
+			{
+				cur = cur->right;
+			}
+		}
+	}
+
+	return cur;
+
+}
+
+void inorder(node* root)
+{	
+	if (root == NULL)
+		return;
+		inorder(root->left);
+		cout<<root->data<<" ";
+		inorder(root->right);
+		//cout<<root->data<<" ";return;
+
+}
+
+
+void preorder(node* root)
+{
+	if (root == NULL)
+	{
+		return;
+	}
+
+	cout<<root->data<<" ";
+
+	preorder(root->left);
+	preorder(root->right);
+}
+
+
+void postorder(node* root)
+{
+	if (root == NULL)
+	{
+		return;
+	}
+
+	postorder(root->left);
+	postorder(root->right);
+
+	cout<<root->data<<" ";
+}
+
+
+
+node* minValueNode(node* x)
+{
+	node* cur = x;
+
+	while (cur && cur->left!=NULL)
+	{
+		cur = cur->left;
+	} 
+
+	return cur;
+}
+
+int main ()
+{
+
+	int n;
+	cin>>n;
+	int arr[n];
+	for (int i=0;i<n;i++)
+	{
+		cin>>arr[i];
+	}
+
+	node* root = new node();
+
+	root = tree(arr,0,n-1,n);
+
+	insert(4,root);
+
+	inorder(root);
+
+	cout<<endl;
+
+	//postorder(root);
+
+	node* y = dele(4,root);
+
+	inorder(root);
+
+
+	node* x = search(1,root);
+
+	
+
+}
