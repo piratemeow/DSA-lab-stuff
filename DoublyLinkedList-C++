@@ -3,6 +3,8 @@ using namespace std;
 typedef long long ll;
 
 
+// 0 based indexing for rand insertion, deletation and search
+
 struct node 
 {
 	int data;
@@ -95,7 +97,7 @@ void insertion_specified()
        temp=head;  
        printf("Enter the location");  
        scanf("%d",&loc);  
-       for(i=0;i<loc;i++)  
+       for(i=0;i<loc-1;i++)  
        {  
            temp = temp->next;  
            if(temp == NULL)  
@@ -237,5 +239,17 @@ void search()
 int main ()
 
 {
+	int n;
+	cin>>n;
 
+	while (n--)
+	{
+		
+
+		insertion_last();
+	}
+
+	display();
+	insertion_specified();
+	display();
 }
