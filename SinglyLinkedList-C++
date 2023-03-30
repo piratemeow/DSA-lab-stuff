@@ -5,7 +5,7 @@ using namespace std;
 typedef long long ll;
 
 
-
+// 0 based indexing in rand insertion, deletation and searching
 struct node {
     int data;
     struct node *next;
@@ -43,7 +43,7 @@ void rand_insert(int x,int loc)
 
     ptr=(struct node*) (malloc(sizeof (struct node*)));
 
-    if (ptr=NULL)
+    if (ptr==NULL)
     {
         cout<<"Overflow\n";
     }
@@ -53,7 +53,7 @@ void rand_insert(int x,int loc)
         temp=head;
 
 
-        for (int i=0;i<loc;i++)
+        for (int i=0;i<loc-1;i++)
         {
             temp=temp->next;
 
@@ -241,10 +241,12 @@ int main ()
         last_insert(x);
     }
 
+    rand_insert(100,5);
+
     display();
     
-    rand_delete(3);
+   // rand_delete(5);
     display();
-    search(5);
+    search(100);
 
 }
