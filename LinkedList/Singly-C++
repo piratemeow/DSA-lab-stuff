@@ -23,10 +23,7 @@ public:
 };
 
 
-node* head = NULL;
-
-
-void inset_begin(int x)
+node* inset_begin(node* head, int x)
 {
 	node* ptr = new node();
 
@@ -34,22 +31,30 @@ void inset_begin(int x)
 	{
 		cout<<"Can't take data to list\n";
 
-		return;
+		return head;
 	}
 
 	else
 	{
-		ptr->data = x;
-		ptr->next = head;
-		head = ptr;
+		if (head == NULL)
+		{
+			head = new node();
+			head->data = x;
+		}
+		else
+		{
+			ptr->data = x;
+			ptr->next = head;
+			head = ptr;
+		}
 	}
 
 
-	return;
+	return head;
 }
 
 
-void rand_insert(int x,int loc)
+node* rand_insert(node* head,int x,int loc)
 {
 	node* ptr = new node();
 
@@ -62,12 +67,13 @@ void rand_insert(int x,int loc)
 		ptr->data = x;
 		ptr->next = NULL;
 		head = ptr;
+		return head;
 	}
 
 	else
 	{
 		temp = head;
-		for (int i=0;i<loc;i++)
+		for (int i=0;i<loc-1;i++)
 		{
 			temp = temp->next; 
 		}
@@ -78,11 +84,11 @@ void rand_insert(int x,int loc)
 
 	}
 
-	return;
+	return head;
 }
 
 
-void last_insert(int x)
+node* last_insert(node* head,int x)
 {
 	node* ptr = new node();
 	node* temp = new node();
@@ -99,6 +105,8 @@ void last_insert(int x)
 			ptr->data = x;
 			ptr->next = NULL;
 			head = ptr;
+
+			return head;
 		}
 		else
 		{
@@ -114,11 +122,11 @@ void last_insert(int x)
 		}
 	}
 
-	return;
+	return head;
 }
 
 
-void dele_begin()
+node* dele_begin(node* head)
 {
 	node* ptr = new node();
 	if (head == NULL)
@@ -132,9 +140,11 @@ void dele_begin()
 		head = ptr->next;
 		free(ptr);
 	}
+
+	return head;
 }
 
-void rand_dele(int loc)
+void rand_dele(node* head,int loc)
 {
 	node* ptr = new node();
 	node* temp = new node();
@@ -158,9 +168,9 @@ void rand_dele(int loc)
 		free(temp);
 	}
 
-	return;
+	return ;
 }
-void last_dele()
+void last_dele(node* head)
 {
 	node* ptr = new node();
 	node* temp = new node();
@@ -192,7 +202,7 @@ void last_dele()
 	return;
 }
 
-void search(int x)
+void search(node* head,int x)
 {
 	node* ptr = new node();
 
@@ -222,7 +232,7 @@ void search(int x)
 	return;
 }
 
-void display()
+void display(node* head)
 {
 	node* ptr= new node();
 
@@ -243,17 +253,23 @@ int main ()
 {
 	int n;
 	cin>>n;
+	node* head = NULL;
 	while (n--)
 	{
 		int x;
 		cin>>x;
 
-		last_insert(x);
+		head = last_insert(head,x);
 
 	}
-	//rand_dele(1);
-	display();
 
-	search(1);
+	last_insert(head,0);
+	rand_insert(head,-1,9);
+	rand_dele(head,9);
+	last_dele(head);
+	display(head);
+
+	search(head,11);
+
 
 }
