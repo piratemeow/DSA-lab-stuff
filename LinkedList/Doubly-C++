@@ -26,21 +26,13 @@ public:
 };
 
 
-node* head = NULL;
 
 
-void inset_begin(int x)
+
+node* inset_begin(node* head,int x)
 {
 	node* ptr = new node();
-
-	if (ptr==NULL)
-	{
-		cout<<"Can't take data to list\n";
-
-		return;
-	}
-
-	else if (head == NULL)
+	if (head == NULL)
 	{
 		ptr->next = NULL;
 		ptr->prev = NULL;
@@ -57,11 +49,11 @@ void inset_begin(int x)
 	}
 
 
-	return;
+	return head;
 }
 
 
-void rand_insert(int x,int loc)
+node* rand_insert(node* head,int x,int loc)
 {
 	node* ptr = new node();
 
@@ -92,11 +84,11 @@ void rand_insert(int x,int loc)
 
 	}
 
-	return;
+	return head;
 }
 
 
-void last_insert(int x)
+node* last_insert(node* head,int x)
 {
 	node* ptr = new node();
 	node* temp = new node();
@@ -130,11 +122,11 @@ void last_insert(int x)
 		}
 	}
 
-	return;
+	return head;
 }
 
 
-void dele_begin()
+node* dele_begin(node* head)
 {
 	node* ptr = new node();
 	if (head == NULL)
@@ -149,9 +141,11 @@ void dele_begin()
 		head->prev = NULL;
 		free(ptr);
 	}
+
+	return head;
 }
 
-void rand_dele(int loc)
+void rand_dele(node* head,int loc)
 {
 	node* ptr = new node();
 	node* temp = new node();
@@ -179,7 +173,7 @@ void rand_dele(int loc)
 	return;
 }
 
-void last_dele()
+void last_dele(node* head)
 {
 	node* ptr = new node();
 	node* temp = new node();
@@ -212,7 +206,7 @@ void last_dele()
 	return;
 }
 
-void search(int x)
+void search(node* head,int x)
 {
 	node* ptr = new node();
 
@@ -242,7 +236,7 @@ void search(int x)
 	return;
 }
 
-void display()
+void display(node* head)
 {
 	node* ptr= new node();
 
@@ -263,17 +257,22 @@ int main ()
 {
 	int n;
 	cin>>n;
+	node* head = NULL;
 	while (n--)
 	{
 		int x;
 		cin>>x;
 
-		last_insert(x);
+		head = last_insert(head,x);
 
 	}
-	last_dele();
-	display();
+	//last_dele();
+	display(head);
+	cout<<endl;
+	head = dele_begin(head);
+	last_dele(head);
+	display(head);
 
-	//search(1);
+	search(head,17);
 
 }
