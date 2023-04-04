@@ -1,0 +1,391 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+//bst using array 
+// Ongoing
+
+class bst
+{
+
+	int *arr;
+	int i = 0;
+	int sz = 0;
+
+
+public:
+
+	bst(int sz)
+	{
+		arr = new int[sz];
+
+		for (int i=0;i<sz;i++)
+		{
+			arr[i] = INT_MIN;
+		}
+
+		this->sz = sz;
+	}
+	void insert(int ele)
+	{
+
+
+		if (i==0)
+		{
+			arr[0]=ele;
+			i++;	
+
+			return;
+		}
+
+		else
+		{
+			//arr[i]=ele;
+
+			int par = 0;
+
+
+			while (par<sz && arr[par]!=INT_MIN)
+			{
+				if (ele <= arr[par])
+				{
+					par = 2*par + 1;
+				}
+				else 
+				{
+					//cout<<ele<<endl;
+					par = 2*par + 2;
+				}
+
+				//cout<<par<<endl;
+			}
+
+			arr[par]=ele;
+			//cout<<arr[par]<<endl;
+
+			return;
+
+		}
+
+	}
+
+	void inorder_insert(int brr[],int l, int r)
+	{
+		if (l>r)
+		{
+			return;
+		}
+
+		int mid =(l+r)/2;
+
+		insert(brr[mid]);
+		inorder_insert(brr,l,mid-1);
+		inorder_insert(brr,mid+1,r);
+
+	}
+
+	void search(int ele)
+	{
+		int par = 0;
+
+
+		while (par<sz && arr[par]!=INT_MIN)
+		{
+			if (ele == arr[par])
+			{
+				cout<<"Element exists\n";
+				return;
+			}
+			else if (ele < arr[par])
+			{
+				par = 2*par +1;
+			}
+			else
+			{
+				par = 2*par +2;
+			}
+		}
+
+		cout<<"Element does not exist\n";
+		return;
+	}
+
+	void dele(int ele)
+	{
+		int par = 0;
+		while (par<sz && arr[par]!=INT_MIN)
+		{
+			if (ele==arr[par])
+			{
+				arr[par] = 0;
+				return;
+			}
+
+			else if (ele<arr[par])
+			{
+				par = 2*par +1;
+			}
+			else
+			{
+				par = 2*par +2;
+			}
+		}
+
+		return;
+		
+	}
+
+	void inorder(int par)
+	{
+		
+		if (par>=sz || arr[par]==INT_MIN)
+		{
+			return;
+		}
+
+
+
+
+		inorder(2*par+1);
+
+		if (arr[par]!=0)
+			cout<<arr[par]<<' ';
+		inorder(2*par+2);
+
+
+	}
+
+	void preorder(int par)
+	{
+		
+		if (par>=sz || arr[par]==INT_MIN)
+		{
+			return;
+		}
+		if (arr[par]!=0)
+			cout<<arr[par]<<' ';
+
+		inorder(2*par+1);
+		
+		inorder(2*par+2);
+
+
+	}
+
+	void postorder(int par)
+	{
+		
+		if (par>=sz || arr[par]==INT_MIN)
+		{
+			return;
+		}
+		
+
+		inorder(2*par+1);
+		
+		inorder(2*par+2);
+
+		if (arr[par]!=0)
+			cout<<arr[par]<<' ';
+
+
+	}
+
+
+	// bool isperfect(int par,int level)
+	// {
+	// 	if (par>=sz || arr[par]==INT_MIN)
+	// 	{
+	// 		return 1;
+	// 	}
+
+
+
+	// }
+
+	bool isfull(int par)
+	{
+		if (par>=sz || arr[par]==INT_MIN )
+		{
+			return 1;
+		}
+
+		if (2*par+1<sz && 2*par+2<sz && arr[2*par+1]==INT_MIN && arr[2*par+2]==INT_MIN)
+		{
+			return 1;
+		}
+
+		if (2*par+1<sz && 2*par+2<sz &&  arr[2*par+1]!=INT_MIN && arr[2*par+2]!=INT_MIN && arr[2*par+1]!=0 && arr[2*par+2]!=0)
+		{
+			return isfull(2*par+1)&isfull(2*par+2);
+		}
+
+		return 0;
+
+	}
+
+	bool isperfect(int par)
+	{
+		if (par>=sz || arr[par]==INT_MIN )
+		{
+			return 1;
+		}
+
+
+		if (2*par+1<sz && 2*par+2<sz &&arr[2*par+1]!=INT_MIN && arr[2*par+2]!=INT_MIN && arr[2*par+1]!=0 && arr[2*par+2]!=0)
+		{
+			return isfull(2*par+1)&isfull(2*par+2);
+		}
+
+		return 0;
+
+	}
+
+	bool isComplete(int par)
+	{
+
+		if (par>=sz || arr[par]==INT_MIN )
+		{
+			return 1;
+		}
+		if (2*par+1<sz && 2*par+2<sz && arr[2*par+1]==INT_MIN && arr[2*par+2]==INT_MIN)
+		{
+			return 1;
+		}
+
+		if (2*par+1<sz && 2*par+2<sz && ((arr[2*par+1]==INT_MIN || arr[2*par+1]==0) && (arr[2*par+2]!=INT_MIN || arr[2*par+2]!=0)))
+		{
+			
+			return 0;
+		}
+
+		return isComplete(2*par+1)&isComplete(2*par+2);
+
+
+	}
+
+	bool isleft(int par)
+	{
+
+		if (par>=sz || arr[par]==INT_MIN )
+		{
+			return 1;
+		}
+
+		if (2*par+1<sz && arr[2*par+2]!=INT_MIN)
+		{
+			if (arr[2*par+2]==0)
+				return 1;
+			else
+				return 0;
+		}
+
+		return isleft(2*par+1);
+
+	}
+
+	
+
+	bool isright(int par)
+	{
+		
+
+		if (par>=sz || arr[par]==INT_MIN)
+		{
+			return 1;
+		}
+
+		if (2*par+1<sz && arr[2*par+1]!=INT_MIN)
+		{
+			if (arr[2*par+1]==0)
+				return 1;
+			else
+				return 0;
+		}
+
+		return isright(2*par+2);
+
+	}
+
+
+
+	void dis()
+	{
+		for (int i=0;i<sz;i++)
+		{
+			cout<<arr[i]<<" ";
+		}
+	}
+};
+
+int main ()
+{
+	int n;
+	cin>>n;
+
+	bst* tree = new bst((int)pow(2,n)+1);
+	int brr[n];
+	for (int i=0;i<n;i++)
+	{
+		int x;
+		cin>>x;
+		tree->insert(x);
+		brr[i]=x;
+	}
+
+	//tree->dele(3);
+
+	tree->preorder(0);
+
+	cout<<endl;
+
+
+	//tree->search(2);
+
+
+	if (tree->isleft(0))
+	{
+		cout<<"Left Skewed\n";
+	}
+	else
+	{
+		cout<<"Not left Skewed\n";
+	}
+
+	if (tree->isright(0))
+	{
+		cout<<"Right Skewed\n";
+	}
+	else
+	{
+		cout<<"Not right Skewed\n";
+	}
+
+	if (tree->isfull(0))
+	{
+		cout<<"The tree is full bst\n";
+	}
+	else
+	{
+		cout<<"The tree is not full bst\n";
+	}
+
+	if (tree->isperfect(0))
+	{
+		cout<<"The tree is perfect bst\n";
+	}
+	else
+	{
+		cout<<"The tree is not perfect bst\n";
+	}
+
+	if (tree->isComplete(0))
+	{
+		cout<<"The tree is complete bst\n";
+	}
+
+	else
+	{
+		cout<<"The tree is not complete bst\n";
+	}
+}
