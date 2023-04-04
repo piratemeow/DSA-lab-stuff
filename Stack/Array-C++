@@ -1,15 +1,14 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class stac{
 public:
 
-	int arr[1000];
-
+	int* arr;
+    int sz;
 	int top;
 	int i=0;
-	stac()
+	stac(int sz)
 	{
+        arr = new int[sz];
+        this->sz = sz;
 		top = -1;
 	}
 
@@ -42,7 +41,7 @@ public:
 
 	bool full()
 	{
-		if (i==1000)
+		if (i==sz)
 			return 1;
 		else
 			return 0;
@@ -60,23 +59,3 @@ public:
 
 
 };
-int main()
-{
-	int n;
-	cin>>n;
-	stac s;
-
-	while (n--)
-	{
-		int x;
-		cin>>x;
-
-		s.push(x);
-	}
-
-	s.clear();
-	cout<<s.size()<<endl;
-	cout<<s.peek()<<endl;
-	
-
-}
