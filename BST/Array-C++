@@ -1,9 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 //bst using array 
-// Ongoing
 
 class bst
 {
@@ -142,10 +140,6 @@ public:
 		{
 			return;
 		}
-
-
-
-
 		inorder(2*par+1);
 
 		if (arr[par]!=0)
@@ -165,9 +159,9 @@ public:
 		if (arr[par]!=0)
 			cout<<arr[par]<<' ';
 
-		inorder(2*par+1);
+		preorder(2*par+1);
 		
-		inorder(2*par+2);
+		preorder(2*par+2);
 
 
 	}
@@ -179,29 +173,15 @@ public:
 		{
 			return;
 		}
+		postorder(2*par+1);
 		
-
-		inorder(2*par+1);
-		
-		inorder(2*par+2);
+		postorder(2*par+2);
 
 		if (arr[par]!=0)
 			cout<<arr[par]<<' ';
 
 
 	}
-
-
-	// bool isperfect(int par,int level)
-	// {
-	// 	if (par>=sz || arr[par]==INT_MIN)
-	// 	{
-	// 		return 1;
-	// 	}
-
-
-
-	// }
 
 	bool isfull(int par)
 	{
@@ -320,6 +300,8 @@ public:
 
 int main ()
 {
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
 	int n;
 	cin>>n;
 
@@ -335,7 +317,7 @@ int main ()
 
 	//tree->dele(3);
 
-	tree->preorder(0);
+	tree->inorder(0);
 
 	cout<<endl;
 
