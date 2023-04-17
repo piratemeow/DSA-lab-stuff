@@ -2,7 +2,7 @@
 
 using namespace std;
 
-// dequeue using heap
+// dequeue using max heap
 class dequ{
     int* arr;
     int i=1;
