@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// Used array;
+// Used array
 // This does not use path compression or weighted union
 // This is a normal dsu implementation
 
