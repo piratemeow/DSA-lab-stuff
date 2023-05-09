@@ -306,7 +306,7 @@ int n;
 int sequence[10000];
 int level[10000];
 
-void dfs(node* v[],int n, int ver,int visi[])
+void bfs(node* v[],int n, int ver,int visi[])
 {
 	que* q = new que(n+1);
 
@@ -387,7 +387,7 @@ int main ()
 	int visi[n+1];
 	memset(visi,0,sizeof visi);
 
-	dfs(v,n,3,visi);
+	bfs(v,n,3,visi);
 
 
 	for (int i=0;i<n;i++)   //Displaying traversal sequence and level of vertices
