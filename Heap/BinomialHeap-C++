@@ -1,0 +1,272 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+class node{
+public:
+
+	int data;
+	int degree;
+	node *parent,*child,*sibling;
+
+	node()
+	{
+		this->data = 0;
+		this->degree = 0;
+		this->parent = NULL;
+		this->child = NULL;
+		this->sibling = NULL;
+	}
+
+	node(int data)
+	{
+		node();
+		this->data = data;
+	}
+
+
+};
+
+class binomialHeap{
+public:
+
+	node* root;
+	node* min;
+
+	binomialHeap()
+	{
+		this->root= NULL;
+	}
+
+	binomialHeap(node* root)
+	{
+		this->root = root;
+	}
+
+
+	void mergeTree(node* x, node* y) // Function to link two binomial trees of degree k, and make it degree k+1
+	{
+		if (x->degree==y->degree)
+		{
+			if (x->data>=y->data)
+			{
+				x->parent = y;
+				x->sibling = y->child;
+				y->child = x;
+				y->degree ++;
+			}
+			else
+			{
+				y->parent = x;
+				y->sibling = x->child;
+				x->child = y;
+				x->degree ++;
+			}
+		}
+
+	}
+
+
+	node* mergeRoots(binomialHeap* x, binomialHeap* y)  // To merge the root list of two binomial heaps
+	{
+		node* merge = new node();
+		node* end = merge;
+
+		node* l1 = x->root;
+		node* l2 = y->root;
+		if (l1==NULL)
+			return l2;
+		else if (l2==NULL)
+			return l1;
+		while (l1!=NULL || l2!=NULL)
+		{
+			if (l1==NULL)
+			{
+				end->sibling = l2;
+				end = end->sibling;
+				l2 = l2->sibling;
+			}
+			else if (l2==NULL)
+			{
+				end->sibling = l1;
+				end=end->sibling;
+				l1 = l1->sibling;
+			}
+			else
+			{
+				if (l1->degree<l2->degree)
+				{
+					end->sibling = l1;
+					end = end->sibling;
+					l1 = l1->sibling;
+				}
+				else
+				{
+					end->sibling = l2;
+					end = end->sibling;
+					l2 = l2->sibling;
+				}
+			}
+		}
+
+		return merge->sibling;
+	}
+
+	void insert(int data)
+	{
+		node* n = new node(data);
+		this->merge(new binomialHeap(n));
+	}
+
+	void merge(binomialHeap* x)
+	{
+		binomialHeap* tempHeap = new binomialHeap();
+		tempHeap->root = mergeRoots(this,x);
+		if (tempHeap->root == NULL)
+		{
+			this->root = NULL;
+			this->min = NULL;
+			return;
+		}
+		node *prev = NULL;
+    	node *curr = tempHeap->root;
+    	node *next = curr->sibling;
+
+    	while (next!=NULL)
+    	{
+    		if (curr->degree != next->degree || (next->sibling != NULL && next->sibling->degree == curr->degree))
+        	{
+            	prev = curr;
+            	curr = next;
+        	}
+        	 else if (curr->data <= next->data)
+        	{
+            	curr->sibling = next->sibling;
+            	mergeTree(next, curr);
+        	}
+        	else
+        	{
+            	if (prev == NULL)
+                	tempHeap->root = next;
+            	else
+                	prev->sibling = next;
+            	mergeTree(curr, next);
+            	curr = next;
+        }
+        next = curr->sibling;
+    	}
+    	this->root = tempHeap->root;
+    	this->min = tempHeap->root;
+    	node *tmp = this->root;
+    	while (tmp != NULL)
+    	{
+        	if (tmp->data < this->min->data)
+            	this->min = tmp;
+        	tmp = tmp->sibling;
+    	}
+	}
+
+	node* extractMin()
+	{
+	    node *minNode = this->min;
+	    
+	    node *prev = NULL;
+	    node *x = this->root;
+	    
+	    while (x != minNode)
+	    {
+	        prev = x;
+	        x = x->sibling;
+	    }
+
+	    
+	    if (prev == NULL)
+	        this->root = x->sibling;
+	    else
+	        prev->sibling = x->sibling;
+
+	    
+	    node *revChd = NULL;
+	    node *tmp = minNode->child;
+
+	    while (tmp != NULL)
+	    {
+	        node *next = tmp->sibling;
+	        tmp->sibling = revChd;
+	        revChd = tmp;
+	        tmp = next;
+	    }
+
+	    
+
+	    binomialHeap *tempHeap = new binomialHeap();
+	    tempHeap->root = revChd;
+	    this->merge(tempHeap);
+
+	    return minNode;
+	}
+
+
+	void decreaseKey(node *x, int newKey)
+	{
+	    assert(x->data > newKey);
+	    x->data = newKey;
+	    node *y = x;
+	    node *z = y->parent;
+	   
+	    while (z != NULL && y->data < z->data)
+	    {
+	       
+	        swap(y->data, z->data);
+
+	        y = z;
+	        z = y->parent;
+	    }
+	    
+	    if (y->data < this->min->data)
+	        this->min = y;
+	}
+
+	void Delete(node *x)
+	{
+	   
+	    decreaseKey(x, INT_MIN);
+	    extractMin();
+	}
+
+	bool isEmpty()
+	{
+
+		if(this->root == NULL)
+			return 1;
+		else
+			return 0;
+	}
+
+};
+
+
+
+int main ()
+{
+	binomialHeap *h2 = new binomialHeap();
+
+    node *x = new node(11);
+    node *y = new node(5);
+
+    h2->insert(11);
+    h2->insert(5);
+    h2->insert(3);
+    h2->insert(8);
+    h2->insert(4);
+
+    h2->decreaseKey(x, 2);
+
+    while (!h2->isEmpty())
+    {
+        cout<< h2->extractMin()->data<<endl;
+    }
+    
+    return 0;
+}
