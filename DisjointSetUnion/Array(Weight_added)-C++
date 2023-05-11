@@ -3,7 +3,6 @@ using namespace std;
 
 //Path compression and weighted union approach
 // Used array
-// This does not use path compression or weighted union
 // This is a normal dsu implementation
 
 class dsu
