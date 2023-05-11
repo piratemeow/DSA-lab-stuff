@@ -9,16 +9,16 @@ typedef unsigned long long llu;
 
 struct BinNode
 {
-    int key;
-    int degree;
+    int key;   // The data kept in the each node
+    int degree; // Degree of the root
 
-    // friend
+    // Sibling
     BinNode *f;
 
-    // parent
+    // Parent
     BinNode *p;
 
-    // child
+    // Child : The leftmost child
     BinNode *c; 
     
     BinNode()
@@ -38,10 +38,15 @@ struct BinNode
 
 class BinHeap
 {
-    BinNode *roots;
-    BinNode *min;
-    void linkTrees(BinNode*, BinNode*);
-    BinNode* mergeRoots(BinHeap*, BinHeap*);
+    BinNode *roots; 
+    BinNode *min; // The node with the minimum value
+    void linkTrees(BinNode*, BinNode*); // Used to link two trees. Doesn't matter if they are the
+    									// same degree or not.
+
+
+    BinNode* mergeRoots(BinHeap*, BinHeap*); // Used to merge two minomial heaps into one heap.
+    											// the property that one binomial heap can only contain
+    											// only one binomial tree of k.
     
 public:
     BinHeap();
@@ -71,29 +76,29 @@ bool BinHeap::isEmpty()
     return (this -> roots == NULL);
 }
 
-void BinHeap::insert(int val){
+void BinHeap::insert(int val){  // Takes value
 	insert(new BinNode(val));
 }
 
-void BinHeap::insert(BinNode *x)
+void BinHeap::insert(BinNode *x) // Takes a node
 {
     this -> merge(new BinHeap(x));
 }
 
-// links y to z such that y is below z
+// Links y to z such that y is below z which means z is the new root
 void BinHeap::linkTrees(BinNode *y, BinNode *z)
 {
-    // Precondition: y -> key >= z -> key
+    // Condition: y -> key >= z -> key
     y -> p = z;
     y -> f = z -> c;
     z -> c = y;
     z -> degree = z -> degree + 1;
 }
 
-// merges the roots of two binary heaps in increasing order with respect to degrees
+// Merges the roots of two binary heaps in increasing order with respect to degrees
 BinNode* BinHeap::mergeRoots(BinHeap *x, BinHeap *y)
 {
-    BinNode *ret = new BinNode();
+    BinNode *ret = new BinNode();  // The sibling of ret will be the root of the new binomial heap
     BinNode *end = ret;
     
     BinNode *L = x -> roots;
@@ -133,7 +138,7 @@ BinNode* BinHeap::mergeRoots(BinHeap *x, BinHeap *y)
     return (ret -> f);
 }
 
-// merges this heap with the given heap
+// Merges this heap with the given heap keeping all the properties of binomial heap
 void BinHeap::merge(BinHeap *bh)
 {
 	// H is the merged heap
@@ -185,12 +190,12 @@ void BinHeap::merge(BinHeap *bh)
     }
 }
 
-BinNode* BinHeap::first()
+BinNode* BinHeap::first() // Returns the node with the minimum value
 {
     return this -> min;
 }
 
-BinNode* BinHeap::extractMin()
+BinNode* BinHeap::extractMin()  //Deletes the minimum node
 {
     BinNode *ret = this -> first();
     
@@ -254,20 +259,22 @@ int main()
     BinHeap *bh = new BinHeap();
     
     BinNode *x = new BinNode(11);
-    BinNode *y = new BinNode(5);
-    
-    bh -> insert(x);
-    bh -> insert(y);
-    bh -> insert(3);
-    bh -> insert(new BinNode(8));
-    bh -> insert(new BinNode(4));
+   
+   int n;
+   cin>>n;
+   while (n--)
+   {
+   		int a ;
+   		cin>>a;
+   		bh->insert(a);
+   }
     
     bh -> decreaseKey(x, 2);
     
     while (!bh -> isEmpty())
     {
-        printf("%d ", bh -> extractMin() -> key);
+        cout<<bh -> extractMin() -> key<<" ";
     }
-    printf("\n");
+   
     return 0;
 }
