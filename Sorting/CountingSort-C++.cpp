@@ -2,7 +2,12 @@
 using namespace std;
 typedef long long ll;
 
+//Stable sorting 
+// O(n+k) where k is the max element
+// Space complexity O(n+k)
 
+
+//Non decreasing order
 void counting_sort(int n,int max_ele, int arr[],int count[],int ans[])
 {
 		
