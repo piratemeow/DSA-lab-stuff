@@ -1,11 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
+//Comparison based sorting
 
 // All are in non decreasing order
-
-
-
-
 
 //Stable in-place sort
 // Best O(n) worst O(n^2)
@@ -68,8 +65,6 @@ void insertionSort(int arr[], int n)
 }
 
 
-
-
 int main ()
 {
 	int n;
@@ -84,6 +79,4 @@ int main ()
 	{
 		cout<<arr[i]<<" ";
 	}
-
-
 }
